@@ -1,15 +1,22 @@
-import Waves from './';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React JSX Example</title>
 
-<Waves
-  lineColor="#fff"
-  backgroundColor="rgba(255, 255, 255, 0.2)"
-  waveSpeedX={0.02}
-  waveSpeedY={0.01}
-  waveAmpX={40}
-  waveAmpY={20}
-  friction={0.9}
-  tension={0.01}
-  maxCursorMove={120}
-  xGap={12}
-  yGap={36}
-/>
+  <!-- 引入 React 和 ReactDOM 的 CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- 引入 Babel 以在浏览器中编译 JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <!-- React 渲染的地方 -->
+  <div id="root"></div>
+
+  <!-- 导入并编译 JSX 文件 -->
+  <script type="text/babel" src="Waves.jsx"></script>
+</body>
+</html>
