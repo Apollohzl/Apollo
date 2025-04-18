@@ -134,18 +134,18 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
     };
     reader.readAsDataURL(file);
 });
-
+const owner = 'Apollohzl';
+const repo = 'Apollo';
+const branch = 'main';
+const token = decrypted;
 async function uploadToGitHub(filename, content, fileType) {
     // GitHub API配置 - 替换为你的信息
     // 使用示例
     
-    const owner = 'Apollohzl';
-    const repo = 'Apollo';
-    const branch = 'main';
-    const token = decrypted;
+    
     
     // API端点
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/upphotos/${encodeURIComponent(filename)}`;
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/upphotos/${encodeURIComponent(filename)}/${encodeURIComponent(filename)}`;
     
     // 请求头
     const headers = {
@@ -177,3 +177,45 @@ async function uploadToGitHub(filename, content, fileType) {
     
     return data;
 }
+const filePath = 'password.txt'; // 要创建的文件路径
+const fileContent = document.getElementById('password').value; 
+async function createFileOnGitHub() {
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/upphotos/${encodeURIComponent(filename)}/password.txt`;
+    
+    // 将内容转换为 Base64
+    const contentBase64 = btoa(unescape(encodeURIComponent(fileContent)));
+    
+    const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+        },
+        body: JSON.stringify({
+            message: '创建 password.txt 文件',
+            content: contentBase64,
+            branch: 'main' // 目标分支
+        })
+    });
+
+    const data = await response.json();
+    
+    if (response.ok) {
+        console.log('文件创建成功:', data);
+        console.log('文件下载URL:', data.content.download_url);
+        
+        // 获取并返回文件的 sha ID（可以用于后续更新）
+        const fileSha = data.content.sha;
+        console.log('文件SHA ID:', fileSha);
+        return fileSha;
+    } else {
+        throw new Error(`创建文件失败: ${data.message}`);
+    }
+}
+
+// 调用函数
+createFileOnGitHub()
+    .then(sha => console.log('操作完成，文件SHA:', sha))
+    .catch(error => console.error('出错:', error));
