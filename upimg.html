@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>图片上传到GitHub</title>
+</head>
+<body>
+    <h1>上传图片到GitHub仓库</h1>
+    
+    <form id="uploadForm">
+        <input type="file" id="imageInput" accept="image/*" required>
+        <br><br>
+        <input type="text" id="filename" placeholder="文件名(不含扩展名)" required>
+        <br><br>
+        <button type="submit">上传到GitHub</button>
+    </form>
+    
+    <div id="status"></div>
+    
+    <script src="upload.js"></script>
+</body>
+</html>
