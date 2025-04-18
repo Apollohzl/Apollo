@@ -145,7 +145,7 @@ async function uploadToGitHub(filename, content, fileType) {
     const token = decrypted;
     
     // API端点
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filename)}`;
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/upphotos/${encodeURIComponent(filename)}`;
     
     // 请求头
     const headers = {
