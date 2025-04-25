@@ -66,7 +66,6 @@ async function decrypt(ciphertext, password) {
 
 
 
-// 新增：获取图库图片函数
 async function fetchGalleryImages() {
     const owner = 'Apollohzl';
     const repo = 'UserImg';
@@ -96,6 +95,24 @@ async function fetchGalleryImages() {
             /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
         );
         
+        // 获取模态框元素
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const captionText = document.getElementById("caption");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        
+        // 关闭模态框
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        // 点击模态框外部关闭
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+        
         // 为每个图片创建元素
         imageFiles.forEach(file => {
             const img = document.createElement('img');
@@ -103,14 +120,11 @@ async function fetchGalleryImages() {
             img.alt = file.name;
             img.className = 'img-item';
             
-            // 点击事件 - 突出显示
+            // 点击事件 - 显示放大图片
             img.addEventListener('click', function() {
-                // 移除之前选中的
-                document.querySelectorAll('.img-item.selected').forEach(el => {
-                    el.classList.remove('selected');
-                });
-                // 添加当前选中
-                this.classList.add('selected');
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
             });
             
             imageBox.appendChild(img);
@@ -122,7 +136,6 @@ async function fetchGalleryImages() {
             '<p>加载图片失败，请刷新页面重试</p>';
     }
 }
-
 
 
 
