@@ -66,7 +66,62 @@ async function decrypt(ciphertext, password) {
 
 
 
-
+// 新增：获取图库图片函数
+async function fetchGalleryImages() {
+    const owner = 'Apollohzl';
+    const repo = 'UserImg';
+    const path = 'upphotos';
+    const token = decrypted;
+    
+    try {
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+        const response = await fetch(apiUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/vnd.github+json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('获取图片列表失败');
+        }
+        
+        const files = await response.json();
+        const imageBox = document.getElementById('imgbox');
+        imageBox.innerHTML = ''; // 清空现有内容
+        
+        // 过滤出图片文件
+        const imageFiles = files.filter(file => 
+            file.type === 'file' && 
+            /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+        );
+        
+        // 为每个图片创建元素
+        imageFiles.forEach(file => {
+            const img = document.createElement('img');
+            img.src = file.download_url;
+            img.alt = file.name;
+            img.className = 'img-item';
+            
+            // 点击事件 - 突出显示
+            img.addEventListener('click', function() {
+                // 移除之前选中的
+                document.querySelectorAll('.img-item.selected').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                // 添加当前选中
+                this.classList.add('selected');
+            });
+            
+            imageBox.appendChild(img);
+        });
+        
+    } catch (error) {
+        console.error('加载图库出错:', error);
+        document.getElementById('imgbox').innerHTML = 
+            '<p>加载图片失败，请刷新页面重试</p>';
+    }
+}
 
 
 
@@ -115,6 +170,8 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
             if (response.content && response.content.download_url) {
                 statusDiv.innerHTML = `上传成功!<br>
                                       <a href="${response.content.download_url}" target="_blank">查看图片</a>`;
+                // 上传成功后刷新图库
+                await fetchGalleryImages();
             } else {
                 const errorMsg = response.message || '未知错误';
                 // 检查是否是API限制错误
@@ -177,3 +234,5 @@ async function uploadToGitHub(filename, content, fileType) {
     
     return data;
 }
+// 页面加载时获取图库图片
+window.addEventListener('DOMContentLoaded', fetchGalleryImages);

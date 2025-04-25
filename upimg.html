@@ -2,6 +2,38 @@
 <html>
 <head>
     <title>图片上传到GitHub</title>
+    <style>
+        #imgbox {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .img-item {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .img-item:hover {
+            transform: scale(1.05);
+        }
+        .img-item.selected {
+            border: 3px solid #4285f4;
+            box-shadow: 0 0 10px rgba(66, 133, 244, 0.5);
+        }
+        @media (max-width: 600px) {
+            .img-item {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>上传图片到GitHub仓库</h1>
@@ -15,6 +47,11 @@
     </form>
     
     <div id="status"></div>
+    
+    <h2>图库</h2>
+    <div id="imgbox">
+        <!-- 图片将在这里动态加载 -->
+    </div>
     
     <script src="upload.js"></script>
 </body>
