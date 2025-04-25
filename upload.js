@@ -70,7 +70,10 @@ async function fetchGalleryImages() {
     const owner = 'Apollohzl';
     const repo = 'UserImg';
     const path = 'upphotos';
-    const token = decrypted;
+    const password = 'MySecretPassword123!Apollohzl';
+    const encrypted = '23f846e78d8e0a739dc449596IgP9MZO2asFcIRFFqxjkiZQZyG2GHu/GoAxC7oywoeLQ3hWYUG2IN3Xd0oJ0CQ4jP5WpA+Wgov8LnZJotArQd4dwUVAx0hA5lsNeg3TrtoIRcwSookmfF4nr/Xp+Nr725YJjFhMv1/Taoljwg==';
+    const token = await decrypt(encrypted, password);
+    console.log(token);
     
     try {
         const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
