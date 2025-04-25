@@ -140,7 +140,7 @@ async function uploadToGitHub(filename, content, fileType) {
     // 使用示例
     
     const owner = 'Apollohzl';
-    const repo = 'Apollo';
+    const repo = 'UserImg';
     const branch = 'main';
     const token = decrypted;
     
